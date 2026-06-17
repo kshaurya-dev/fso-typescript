@@ -1,6 +1,6 @@
 import patientData from "../../data/patients.js";
-import type { Patient , nonSensitivePatient } from "../types.js";
-
+import type { Patient , nonSensitivePatient,NewPatient } from "../types.js";
+import { v4 as uuidv4 } from 'uuid';
 const getPatients = ():Patient[]=>{
     return patientData;
 };
@@ -11,7 +11,14 @@ const getNonSensitivePatients=():nonSensitivePatient[]=>{
         }
     ));
 };
-const addPatient = ()=>{
-    return null;
+const findPatient=(id : string):Patient | undefined=>{
+    const patient = patientData.find(p=>p.id===id);
+    return patient;
 };
-export default {getPatients , addPatient,getNonSensitivePatients};
+const addPatient = (patient : NewPatient)=>{
+    const newId= uuidv4();
+    const newPatient : Patient ={...patient , id:newId};
+    patientData.push(newPatient);
+    return newPatient;
+};
+export default {getPatients , addPatient,getNonSensitivePatients , findPatient};

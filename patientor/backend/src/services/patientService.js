@@ -1,4 +1,5 @@
 import patientData from "../../data/patients.js";
+import { v4 as uuidv4 } from 'uuid';
 const getPatients = () => {
     return patientData;
 };
@@ -7,7 +8,14 @@ const getNonSensitivePatients = () => {
         id, name, dateOfBirth, gender, occupation
     }));
 };
-const addPatient = () => {
-    return null;
+const findPatient = (id) => {
+    const patient = patientData.find(p => p.id === id);
+    return patient;
 };
-export default { getPatients, addPatient, getNonSensitivePatients };
+const addPatient = (patient) => {
+    const newId = uuidv4();
+    const newPatient = { ...patient, id: newId };
+    patientData.push(newPatient);
+    return newPatient;
+};
+export default { getPatients, addPatient, getNonSensitivePatients, findPatient };
